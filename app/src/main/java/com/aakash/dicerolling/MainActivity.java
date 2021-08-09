@@ -5,6 +5,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -22,22 +26,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     String[] sides = {"4", "6", "8", "10", "12", "20"};
     Spinner spin;
-    Button rollOneDiceButton, rollTwoDiceButton;
+    Button rollOneDiceButton;
     String diceResult;
     int maxValue = 4;
-    TextView diceOneSelectorTextView,diceTwoSelectorTextView, diceResult1Textview, diceResult2Textview;
-    SwitchCompat diceSelectorSwitch;
-    LinearLayout secondDiceLayoutView;
+    TextView diceResult1Textview, diceResult2Textview;
+    EditText customDiceSidesEditText;
+    LinearLayout secondDiceLayoutView, customSidesLayout;
+    RadioGroup radioGroup;
+    RadioButton oneDiceRadioButton, twoDiceRadioButton, customDiceRadioButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //SharedPreferences sharedPreferences = SharedPreferences
+
         getID();
         rollOneDiceButton.setOnClickListener(this);
-        rollTwoDiceButton.setOnClickListener(this);
 
         secondDiceLayoutView.setVisibility(View.GONE);
+        customSidesLayout.setVisibility(View.GONE);
         spin.setOnItemSelectedListener(this);
 
         //Creating the ArrayAdapter instance having the country list
@@ -46,18 +54,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Setting the ArrayAdapter data on the Spinner
         spin.setAdapter(aa);
 
-diceSelectorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) {
-            diceTwoSelectorTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_200));
-            diceOneSelectorTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-            secondDiceLayoutView.setVisibility(View.VISIBLE);
 
-        } else {
-            diceTwoSelectorTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-            diceOneSelectorTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_200));
-            secondDiceLayoutView.setVisibility(View.GONE);
-
+radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId){
+            case R.id.oneDiceRadioButton:
+                secondDiceLayoutView.setVisibility(View.GONE);
+                customSidesLayout.setVisibility(View.GONE);
+                break;
+            case R.id.twoDiceRadioButton:
+                secondDiceLayoutView.setVisibility(View.VISIBLE);
+                customSidesLayout.setVisibility(View.GONE);
+                break;
+            case R.id.customDiceRadioButton:
+                secondDiceLayoutView.setVisibility(View.GONE);
+                customSidesLayout.setVisibility(View.VISIBLE);
+                break;
         }
     }
 });
@@ -115,16 +128,20 @@ diceSelectorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChange
     public void getID() {
         spin = findViewById(R.id.selectDiceSpinner);
         rollOneDiceButton = findViewById(R.id.rollOneDiceButton);
-        rollTwoDiceButton = findViewById(R.id.rollTwoDiceButton);
 
         diceResult1Textview = findViewById(R.id.diceResult1Textview);
         diceResult2Textview = findViewById(R.id.diceResult2Textview);
 
-        diceOneSelectorTextView = findViewById(R.id.diceOneSelectorTextView);
-        diceTwoSelectorTextView = findViewById(R.id.diceTwoSelectorTextView);
 
-        diceSelectorSwitch = findViewById(R.id.selectDiceTypeSwitch);
         secondDiceLayoutView = findViewById(R.id.secondDiceLayoutView);
+
+        radioGroup = findViewById(R.id.selectSidesRadioGroup);
+        oneDiceRadioButton = findViewById(R.id.oneDiceRadioButton);
+        twoDiceRadioButton = findViewById(R.id.twoDiceRadioButton);
+        customDiceRadioButton = findViewById(R.id.customDiceRadioButton);
+
+        customSidesLayout = findViewById(R.id.customSidesLayout);
+        customDiceSidesEditText = findViewById(R.id.customSidesEditText);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -132,11 +149,13 @@ diceSelectorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChange
         switch (view.getId()) {
 
             case R.id.rollOneDiceButton:
-                 diceResult = String.valueOf(new Dice(maxValue).rollmethod());
+                saveData();
+                if(oneDiceRadioButton.isChecked()){
+                    diceResult = String.valueOf(new Dice(maxValue).rollmethod());
                     diceResult1Textview.setText(diceResult);
-                break;
 
-            case R.id.rollTwoDiceButton:
+                }
+                else if(twoDiceRadioButton.isChecked()){
                 diceResult = String.valueOf(new Dice(maxValue).rollmethod());
                 diceResult1Textview.setText(diceResult);
 
@@ -145,12 +164,54 @@ diceSelectorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChange
 
                 diceResult2Textview.setText(diceResult);
 
+                }
+                else if(customDiceRadioButton.isChecked()){
+                    int numberofsides = Integer.parseInt(String.valueOf(customDiceSidesEditText.getText()));
+                    if(numberofsides < 100){
+                        try{
+                            diceResult = String.valueOf(new Dice(numberofsides).rollmethod());
+                            diceResult1Textview.setText(diceResult);
+                        }
+                        catch(Exception e){
+                            Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Enter values below 100!", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 break;
+
             default:
                 Toast.makeText(this, "View not implemented", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        saveData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        String s1 = sh.getString("value", "");
+
+        customDiceSidesEditText.setText(s1);
+    }
+
+    public void saveData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+        myEdit.putString("value", customDiceSidesEditText.getText().toString());
+        myEdit.apply();
+    }
 
 }

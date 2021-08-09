@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
 
         <TextView
@@ -46,7 +51,26 @@
             android:textSize="50sp"/>
 
     </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/customSidesLayout"
+    android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Select the number of Sides:"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/customSidesEditText"
+        android:inputType="phone"
+        android:hint="Number of Sides"/>
+
+</LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -67,55 +91,45 @@
 </LinearLayout>
 
 
-    <LinearLayout
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:checkedButton="@id/oneDiceRadioButton"
+        android:id="@+id/selectSidesRadioGroup">
 
-
-        <TextView
+        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/diceOneSelectorTextView"
-            android:text="Select One dice"/>
-
-        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/oneDiceRadioButton"
+            android:text="One Dice"/>
+        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/selectDiceTypeSwitch" />
-
-        <TextView
+            android:id="@+id/twoDiceRadioButton"
+            android:text="Two Dice"/>
+        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/diceTwoSelectorTextView"
-            android:text="Select Two dice"/>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/rollOneDiceButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:text="Roll Dice"/>
-
-        <Button
-            android:id="@+id/rollTwoDiceButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:text="Roll Two Dice"/>
-
-    </LinearLayout>
+            android:id="@+id/customDiceRadioButton"
+            android:text="Custom Sides"/>
+    </RadioGroup>
+</LinearLayout>
 
 
 
 </LinearLayout>
+    <Button
+        android:id="@+id/rollOneDiceButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_alignParentBottom="true"
+        android:text="Roll Dice"/>
+</RelativeLayout>
