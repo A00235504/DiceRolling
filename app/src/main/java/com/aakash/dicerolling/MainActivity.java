@@ -27,13 +27,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     String[] sides = {"4", "6", "8", "10", "12", "20"};
     Spinner spin;
     Button rollOneDiceButton;
-    String diceResult;
+    String diceResult, diceResult2;
     int maxValue = 4;
-    TextView diceResult1Textview, diceResult2Textview;
+    TextView diceResult1Textview, diceResult2Textview, historyDiceTextView,historyTitleDice2RollTextView,historyDice2TextView;
     EditText customDiceSidesEditText;
     LinearLayout secondDiceLayoutView, customSidesLayout;
     RadioGroup radioGroup;
-    RadioButton oneDiceRadioButton, twoDiceRadioButton, customDiceRadioButton;
+    RadioButton oneDiceRadioButton, twoDiceRadioButton, customDiceRadioButton, customDiceTenSidesRadioButton, customDiceTenTrueValueSidesRadioButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +42,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //SharedPreferences sharedPreferences = SharedPreferences
 
         getID();
+        getData();
         rollOneDiceButton.setOnClickListener(this);
 
         secondDiceLayoutView.setVisibility(View.GONE);
         customSidesLayout.setVisibility(View.GONE);
         spin.setOnItemSelectedListener(this);
+
+        historyTitleDice2RollTextView.setVisibility(View.GONE);
+        historyDice2TextView.setVisibility(View.GONE);
 
         //Creating the ArrayAdapter instance having the country list
         ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, sides);
@@ -60,17 +64,36 @@ radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId){
             case R.id.oneDiceRadioButton:
+
+            case R.id.customDiceTenTrueValueSidesRadioButton:
+
+            case R.id.customDiceTenSidesRadioButton:
                 secondDiceLayoutView.setVisibility(View.GONE);
                 customSidesLayout.setVisibility(View.GONE);
+                historyTitleDice2RollTextView.setVisibility(View.GONE);
+                historyDice2TextView.setVisibility(View.GONE);
+
                 break;
             case R.id.twoDiceRadioButton:
                 secondDiceLayoutView.setVisibility(View.VISIBLE);
                 customSidesLayout.setVisibility(View.GONE);
+
+                historyTitleDice2RollTextView.setVisibility(View.VISIBLE);
+                historyDice2TextView.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.customDiceRadioButton:
                 secondDiceLayoutView.setVisibility(View.GONE);
                 customSidesLayout.setVisibility(View.VISIBLE);
+
+                historyTitleDice2RollTextView.setVisibility(View.GONE);
+                historyDice2TextView.setVisibility(View.GONE);
+
                 break;
+
+
+
+
         }
     }
 });
@@ -139,9 +162,17 @@ radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
         oneDiceRadioButton = findViewById(R.id.oneDiceRadioButton);
         twoDiceRadioButton = findViewById(R.id.twoDiceRadioButton);
         customDiceRadioButton = findViewById(R.id.customDiceRadioButton);
+        customDiceTenSidesRadioButton = findViewById(R.id.customDiceTenSidesRadioButton);
+        customDiceTenTrueValueSidesRadioButton = findViewById(R.id.customDiceTenTrueValueSidesRadioButton);
 
         customSidesLayout = findViewById(R.id.customSidesLayout);
         customDiceSidesEditText = findViewById(R.id.customSidesEditText);
+
+
+        historyDiceTextView = findViewById(R.id.historyDiceTextView);
+
+        historyTitleDice2RollTextView = findViewById(R.id.historyTitleDice2RollTextView);
+        historyDice2TextView = findViewById(R.id.historyDice2TextView);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -150,6 +181,7 @@ radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             case R.id.rollOneDiceButton:
                 saveData();
+
                 if(oneDiceRadioButton.isChecked()){
                     diceResult = String.valueOf(new Dice(maxValue).rollmethod());
                     diceResult1Textview.setText(diceResult);
@@ -158,7 +190,7 @@ radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 else if(twoDiceRadioButton.isChecked()){
                 diceResult = String.valueOf(new Dice(maxValue).rollmethod());
                 diceResult1Textview.setText(diceResult);
-
+                diceResult2 = diceResult;
 
                 diceResult = String.valueOf(new Dice(maxValue).rollmethod());
 
@@ -180,6 +212,16 @@ radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                         Toast.makeText(getApplicationContext(), "Enter values below 100!", Toast.LENGTH_SHORT).show();
                     }
                 }
+
+                else if(customDiceTenSidesRadioButton.isChecked()){
+                    diceResult = String.valueOf(new Dice(10).rollmethod() * 10);
+                    diceResult1Textview.setText(diceResult);
+                }
+                else if(customDiceTenTrueValueSidesRadioButton.isChecked()){
+                    diceResult = String.valueOf(new Dice(10).rollmethod() - 1);
+                    diceResult1Textview.setText(diceResult);
+                }
+                getData();
                 break;
 
             default:
@@ -191,19 +233,14 @@ radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
     @Override
     protected void onPause() {
         super.onPause();
-
         saveData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        getData();
 
-        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-
-        String s1 = sh.getString("value", "");
-
-        customDiceSidesEditText.setText(s1);
     }
 
     public void saveData(){
@@ -211,7 +248,32 @@ radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
 
         myEdit.putString("value", customDiceSidesEditText.getText().toString());
+        if(diceResult != null){
+        myEdit.putString("history", String.valueOf(diceResult));
+        myEdit.putString("history2", diceResult2);
+        }
+        else{
+            myEdit.putString("history","0");
+        }
         myEdit.apply();
+    }
+
+    public void getData(){
+        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        String s1 = sh.getString("value", "0");
+        String getHistory = sh.getString("history", "0");
+        String getHistory2 = sh.getString("history2","0");
+
+        customDiceSidesEditText.setText(s1);
+
+        if(getHistory != null){
+        historyDiceTextView.setText(getHistory);
+            historyDice2TextView.setText(getHistory2);
+        }
+        else{
+            getHistory = "0";
+        }
     }
 
 }
