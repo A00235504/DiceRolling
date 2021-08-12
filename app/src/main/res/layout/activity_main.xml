@@ -89,8 +89,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/selectDiceSpinner"/>
 
-</LinearLayout>
 
+
+</LinearLayout>
+    <TextView
+        android:id="@+id/restoreAllSidesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restore List to defaults"/>
 
 
 <LinearLayout
@@ -122,17 +128,7 @@
             android:id="@+id/customDiceRadioButton"
             android:text="Custom Sides"/>
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/customDiceTenSidesRadioButton"
-            android:text="Custom 10 Sides"/>
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/customDiceTenTrueValueSidesRadioButton"
-            android:text="Custom 10 Sides with 0-9"/>
     </RadioGroup>
 </LinearLayout>
 <LinearLayout
@@ -146,7 +142,13 @@
         android:layout_weight="1"
         style="@style/TitleText"
         android:text="History of Dice Rolls:"/>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        style="@style/TitleText"
+        android:id="@+id/clearListTextView"
+        android:text="Clear List"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
