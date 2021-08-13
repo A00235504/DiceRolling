@@ -162,20 +162,7 @@
         android:text="0"
         android:textAlignment="center"
         android:textSize="30sp"/>
-    <TextView
-        android:id="@+id/historyTitleDice2RollTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        style="@style/TitleText"
-        android:text="Dice 2:"/>
-    <TextView
-        android:id="@+id/historyDice2TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textAlignment="center"
-        android:textSize="30sp"/>
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="40dp"/>
