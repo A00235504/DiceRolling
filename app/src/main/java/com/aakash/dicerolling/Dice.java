@@ -17,8 +17,7 @@ public class Dice {
         currentSideUp =  (int)(Math.random()*numberOfSides + 1);
     }
 
-
-
+    //a roll method to generate random dice results
     public int rollmethod(){
         currentSideUp = (int)(Math.random()*this.numberOfSides + 1);
         return currentSideUp;

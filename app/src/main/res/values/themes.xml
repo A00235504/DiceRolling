@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
+<!--    style defined for the button roll-->
     <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="fontFamily">casual</item>
         <item name="circleRadius">10sp</item>
@@ -22,23 +23,38 @@
         <item name="rippleColor">@color/greenripplebutton</item>
     </style>
 
+    <!--    style defined for the title text views-->
     <style name="TitleText" parent="Widget.MaterialComponents.TextView">
-
         <item name="android:textColor">@color/greendark</item>
         <item name="android:textSize">20sp</item>
 
     </style>
 
-    <style name="RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+    <!--    style defined for the radio buttons group-->
+    <style name="RadioButtonGroup" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="colorSecondary">@color/greendark</item>
         <item name="colorControlActivated">@color/greendark</item>
         <item name="colorControlNormal">@color/greendark</item>
+        <item name="android:textSize">20sp</item>
        </style>
 
-    <style name="CustomRadioTheme" parent="Widget.AppCompat.CompoundButton.RadioButton">
-        <item name="android:colorControlNormal">#7a7a7a</item>
-        <item name="android:colorControlActivated">#FF9800</item>
-        <item name="android:colorControlHighlight">#FF9800</item>
+    <!--    style defined for the radio button -->
+    <style name="RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <!--    style defined for the result text view -->
+    <style name="ResultText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textAlignment">center</item>
+
+    </style>
+
+    <!--    style defined for the history text view -->
+    <style name="HistoryText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textAlignment">center</item>
+
     </style>
 </resources>

@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="5dp">
+<!--    scrollview is used for scoliing the page vertically-->
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -28,8 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="1"
-        android:textAlignment="center"
-        android:textSize="50sp"/>
+        style="@style/ResultText" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,8 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="1"
-            android:textAlignment="center"
-            android:textSize="50sp"/>
+            style="@style/ResultText"/>
 
     </LinearLayout>
 <LinearLayout
@@ -72,6 +72,8 @@
         android:hint="Number of Sides"/>
 
 </LinearLayout>
+
+<!--    spinner is used in this layout horizontally-->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -98,7 +100,7 @@
         android:layout_height="wrap_content"
         android:text="Restore List to defaults"/>
 
-
+<!--Radio group is used in this layout vertically 3 buttons used-->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -109,23 +111,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checkedButton="@id/oneDiceRadioButton"
-        android:theme="@style/CustomRadioTheme"
+        android:theme="@style/RadioButtonGroup"
         android:id="@+id/selectSidesRadioGroup">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/oneDiceRadioButton"
+            style="@style/RadioButton"
             android:text="One Dice"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/twoDiceRadioButton"
+            style="@style/RadioButton"
             android:text="Two Dice"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/customDiceRadioButton"
+            style="@style/RadioButton"
             android:text="Custom Sides"/>
 
 
@@ -142,26 +147,31 @@
         android:layout_weight="1"
         style="@style/TitleText"
         android:text="History of Dice Rolls:"/>
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="textEnd"
-        style="@style/TitleText"
-        android:id="@+id/clearListTextView"
-        android:text="Clear List"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        style="@style/TitleText"
-        android:text="Dice 1:"/>
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TitleText"
+            android:text="Dice:"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            style="@style/TitleText"
+            android:id="@+id/clearListTextView"
+            android:text="Clear List"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/historyDiceTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="0"
-        android:textAlignment="center"
-        android:textSize="30sp"/>
+        style="@style/HistoryText" />
 
     <Space
         android:layout_width="match_parent"
@@ -171,6 +181,7 @@
 
 </LinearLayout>
 </ScrollView>
+<!--    This button will always stay at botton due to relative layout-->
     <Button
         android:id="@+id/rollOneDiceButton"
         android:layout_width="match_parent"
