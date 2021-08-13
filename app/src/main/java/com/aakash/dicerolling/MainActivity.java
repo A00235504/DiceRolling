@@ -183,30 +183,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                         int numberofsides = Integer.parseInt(String.valueOf(customDiceSidesEditText.getText()));
 
-                        if (numberofsides < 100) {
-                        try {
-                            diceResult = String.valueOf(new Dice(numberofsides).rollmethod());
-                            diceResult1Textview.setText(diceResult);
-                            if(arrayList.contains(String.valueOf(numberofsides))){
-                                arrayListHistory.add(diceResult);
-                                setArrayListdata();
-                            }
-                            else{
-                            arrayList.add(String.valueOf(numberofsides));
-                            int sides = arrayList.indexOf(String.valueOf(numberofsides));
-                            spin.setSelection(sides);
-                                arrayListHistory.add(diceResult);
-                                setArrayListdata();
-
-                            }
-                        } catch (Exception e) {
-                            Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                        if(numberofsides == 0){
+                            Toast.makeText(getApplicationContext(), "Enter values greater than 0", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Enter values below 100!", Toast.LENGTH_SHORT).show();
-                    }
+                        else {
+                            if (numberofsides < 100) {
+                                try {
+                                    diceResult = String.valueOf(new Dice(numberofsides).rollmethod());
+                                    diceResult1Textview.setText(diceResult);
+                                    if (arrayList.contains(String.valueOf(numberofsides))) {
+                                        arrayListHistory.add(diceResult);
+                                        setArrayListdata();
+                                    } else {
+                                        arrayList.add(String.valueOf(numberofsides));
+                                        int sides = arrayList.indexOf(String.valueOf(numberofsides));
+                                        spin.setSelection(sides);
+                                        arrayListHistory.add(diceResult);
+                                        setArrayListdata();
+
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Enter values below 100!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }catch(Exception e){
                         Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+
                     }
                 }
                 break;
