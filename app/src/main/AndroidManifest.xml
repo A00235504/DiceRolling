@@ -9,7 +9,12 @@
         android:roundIcon="@drawable/dice"
         android:supportsRtl="true"
         android:theme="@style/Theme.DiceRolling">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            />
+        <activity android:name=".SplashScreen"
+            android:exported="true"
+            android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
